@@ -41,7 +41,7 @@ def alumnos():
 @app.route("/usuarios", methods=["GET","POST"])
 def usuarios():
     form = forms.UserForm(request.form)
-    return render_template("usuarios.html", formulario=form)
+    return render_template("usuarios.html", form=form)
 
 
 
