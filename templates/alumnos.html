@@ -1,5 +1,35 @@
 {% extends "layout.html" %}
 
 {% block content %}
+
+{%import "_macros.html" as macros%}
     <H1>Alumnos</h1>
+
+    <form action="" method="POST" novalidate>
+        {{ form.csrf_token }}
+
+        <div class=mb-3>
+            {{macros.campoNuevo(form.matricula,class='form_control')}}
+        </div>
+        <div class=mb-3>
+            {{macros.campoNuevo(form.nombre,class='form_control')}}
+        </div>
+        <div class=mb-3>
+            {{macros.campoNuevo(form.apaterno,class='form_control')}}
+        </div>
+        <div class=mb-3>
+            {{macros.campoNuevo(form.amaterno,class='form_control')}}
+        </div>
+        <div class=mb-3>
+            {{macros.campoNuevo(form.correo,class='form_control')}}
+        </div>
+        <button class="btn btn-primary" type="submit">Guardar</button>
+    </form>
+
+    <H1>matricula: {{ mat }}</h1>
+    <H1>nombre: {{ nom }}</h1>
+    <H1>paterno: {{ apa }}</h1>
+    <H1>materno: {{ ama }}</h1>
+    <H1>correo: {{ email }}</h1>
+
 {% endblock%}

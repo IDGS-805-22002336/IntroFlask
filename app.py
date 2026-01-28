@@ -1,7 +1,13 @@
 
 from flask import Flask, render_template, request
+from flask import flash
+from flask_wtf.csrf import CSRFProtect
+
+import forms
 
 app=Flask(__name__)
+app.secret_key='clave secreta'
+csrf=CSRFProtect(app)
 
 
 @app.route("/")
@@ -11,13 +17,32 @@ def index():
     return render_template("index.html",titulo=titulo,lista=lista)
 
 
-@app.route("/alumnos")
+@app.route("/alumnos",methods=['GET','POST'])
+@csrf.exempt
 def alumnos():
-    return render_template("alumnos.html")
+    mat=0
+    nom=''
+    apa=''
+    ama=''
+    email=''
+    alumnos_class=forms.UserForm(request.form)
+    if request.method == 'POST' and alumnos_class.validate():
+        mat=alumnos_class.matricula.data
+        nom=alumnos_class.nombre.data
+        apa=alumnos_class.apaterno.data
+        ama=alumnos_class.amaterno.data
+        email=alumnos_class.correo.data
+        
+        mensaje='Bienvenido {}'.format(nom)
+        flash(mensaje)
+    return render_template("alumnos.html",form=alumnos_class, mat=mat, nom=nom, apa=apa, ama=ama, email=email)
 
-@app.route("/usuarios")
+
+@app.route("/usuarios", methods=["GET","POST"])
 def usuarios():
-    return render_template("usuarios.html")
+    form = forms.UserForm(request.form)
+    return render_template("usuarios.html", formulario=form)
+
 
 
 @app.route("/hola")
@@ -41,7 +66,7 @@ def formulario():
     
     '''
 
-@app.route("/operasBas")
+@app.route("/operasBas", methods=["GET", "POST"])
 def opera1():
     res=0
     if request.method=="POST":
@@ -61,8 +86,8 @@ def resultado():
 
 
 if __name__=='__main__':
+    csrf.init_app(app)
     app.run(debug=True)
     
-'''
-hacer repositorio y hacer commit 
-'''
+
+# commit mensaje flask

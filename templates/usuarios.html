@@ -1,5 +1,18 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <H1>Usuarios</h1>
-{% endblock%}
+{%import "_macros.html" as macros%}
+    <form action="/alumnos" method="post">
+    {{ form.csrf_token }}
+
+    {{ macros.datos("matricula", "matricula", "number") }}
+    {{ macros.datos("nombre", "nombre") }}
+    {{ macros.datos("apaterno", "Apellido paterno") }}
+    {{ macros.datos("amaterno", "Apellido materno") }}
+    {{ macros.datos("correo", "correo", "email") }}
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+</form>
+
+
+{% endblock %}
